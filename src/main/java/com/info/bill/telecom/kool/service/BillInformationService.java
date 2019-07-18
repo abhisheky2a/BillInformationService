@@ -1,6 +1,7 @@
 package com.info.bill.telecom.kool.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,19 @@ public class BillInformationService {
 	
 	public BillInfo getBillInfo(String billId)
 	{
-		if (repo.findById(billId).isPresent())
-			return repo.findById(billId).get();
+		Optional<BillInfo> billInfo = repo.findById(billId);
+		if (billInfo.isPresent())
+			return billInfo.get();
 		else
 			return null;
 	}
 
 	public List<BillInfo> getBillInfoByAccountId(String accountId) {
-		if (null != repo.findByAccountId(accountId) || repo.findByAccountId(accountId).size() > 0)
-			return repo.findByAccountId(accountId);
+		
+		List<BillInfo> billInfo = repo.findByAccountId(accountId);
+		
+		if (null != billInfo && billInfo.size() > 0)
+			return billInfo;
 		else
 			return null;
 	}
